@@ -1,27 +1,20 @@
 /**
- * 最后更新时间：2018年1月2日10:14:14
+ * ajax 网络请求
  */
 class Setting {
     url: string
     async?: boolean
     method?: string
     data?: object
+    headers?: object
     success?: Function
     failure?: Function
     constructor() {
     };
 }
 export class Ajax {
-
     private opt: Setting;
-    constructor(opt: {
-        url: string
-        async?: boolean
-        method?: string
-        data?: object
-        success?: Function
-        failure?: Function
-    }) {
+    constructor(opt: Setting) {
         this.opt = opt;
         this.send();
     }
@@ -30,7 +23,7 @@ export class Ajax {
         const fn = () => { }
         let opt = this.opt;
         let url = opt.url;
-        let { async = true, method = "GET", data = null, success = fn, failure = fn } = opt
+        let { async = true, method = "GET", data = null, success = fn, failure = fn, headers } = opt
         if (method.toUpperCase() === "GET" && data !== null) {
             url += (url.indexOf("?") === -1 ? "?" : "&") + this.charFormat(data);
         }
@@ -48,11 +41,25 @@ export class Ajax {
 
         xhr.open(method, url, async)
 
-        if (method.toUpperCase() === `POST`) {
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        if (method.toUpperCase() === "POST") {
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
         }
 
-        xhr.send()
+        if (headers) {
+            for (const key in headers) {
+                if (headers.hasOwnProperty(key)) {
+                    const ele = (<any>headers)[key];
+
+                    xhr.setRequestHeader(key, ele);
+                }
+            }
+        }
+
+        if ("POST" == method) {
+            xhr.send(this.charFormat(data));
+        } else {
+            xhr.send();
+        }
     }
     private onStateChange = (xhr: XMLHttpRequest, success: Function, failure: Function) => {
         if (xhr.readyState === 4) {

@@ -1,7 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2017年11月17日11:03:44
- * 功能分类：数据业务
+ * @name 数据算法
 /*
 /**
  * 导航工具
@@ -385,7 +383,6 @@ export function FormatTime(seconds: number, format?: string) {
     secs = secs < 10 ? ("0" + secs) : secs;
     return format.replace('hh', hours).replace('mm', mins).replace('ss', secs);
 }
-
 export class ConvertKey {
     constructor() {
 
