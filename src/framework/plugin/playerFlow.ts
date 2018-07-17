@@ -1,17 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2018年1月18日12:12:43
- * 更新时间：2018年1月24日14点57分
- * 功能分类：安徽盒子 播放器
- * 盒子差异：
- *          部分盒子到最后 1 或 2 s直接停止
-            盒子开始播放时 当前进度返回 0 延迟 部分时间才返回当前进度
- * 安徽-海信 - ZP906H 小窗播放尺寸异常或黑屏解决方案
- *          1. 开始播放时在 play 之前配置 displaySmall 然后再 PlayerType.StartPlaying 事件中再次配置 displaySmall
- *          2. 播放完毕切换片源时需要 release() > play() 避免尺寸不对播放黑屏无法获取进度等问题(续播2到3次时出现)
- * 云南-广视 - 选集播放时需要释放掉
- * 云南-怕普特 - IP906H 播放视频在黑屏下面
- *          1. 开始播放前调用 configDisplayFull 全屏方法，配置UI层级视频大小等基本信息
+ * @name 播放器 直播
  */
 /// <reference path="./player.d.ts" />
 import { SetTimeout, SetInterval } from '../data_tool/dataTool';

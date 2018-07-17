@@ -1,13 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2017年10月31日11:02:23
- * 更新日志：
- *      时间：2017年11月24日17:31:31
- *      内容：增加 native 请求方式，解决API频繁访问问题
- */
-/**
- * 请求类
- * T：请求参数类型
+ * @name 数据逻辑
  */
 import { Ajax } from "../framework/data_tool/ajax";
 export class RequestInfo {

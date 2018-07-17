@@ -1,7 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 更新时间：2018年4月12日 14点57分
- * 功能分类：自定义apk 播放器
+ * 播放器 自定义播放器
  */
 /// <reference path="./player.d.ts" />
 import { SetTimeout, SetInterval } from '../data_tool/dataTool';

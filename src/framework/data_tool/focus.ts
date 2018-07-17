@@ -1,5 +1,5 @@
 /**
- * 焦点引擎
+ * @name 焦点引擎
  */
 import { Key, Extend, Guid, Json, SetTimeout } from './dataTool';
 import { HElement } from '../ui_tool/uiTool';
@@ -525,6 +525,7 @@ class Focus {
     public setSite(x: number, y: 'last'): void;
     public setSite(keyCode: number, y: "common"): void;// keyCode => 34,56,32,32...
     public setSite(valOne?: string | number | Site | [number] | 'first' | 'last', valTwo?: string | number | 'first' | 'last') {
+
         let retSite: Site = null;
         if (!this.instanceStatus)
             return;
@@ -552,6 +553,10 @@ class Focus {
 
         // 是否设置成功
         if (retSite) {
+            // if (this.site.index === retSite.index) {
+            //     console.log("坐标未改动");
+            //     return;
+            // }
             // 更新坐标
             this.site = retSite;
 

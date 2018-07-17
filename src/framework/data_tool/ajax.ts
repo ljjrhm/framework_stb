@@ -1,5 +1,5 @@
 /**
- * ajax 网络请求
+ * @name 网络请求
  */
 class Setting {
     url: string
@@ -13,6 +13,7 @@ class Setting {
     };
 }
 export class Ajax {
+
     private opt: Setting;
     constructor(opt: Setting) {
         this.opt = opt;

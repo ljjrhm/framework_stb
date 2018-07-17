@@ -1,13 +1,12 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2018年1月18日12:12:43
- * 更新时间：2018年3月8日 10点00分
- * 功能分类：安徽盒子
+ * @name 盒子接口
  */
 // 盒子相关属性
 const PageTitle = document.title.split('-').length > 1 ? document.title.split('-')[1].toLowerCase() : "";
 declare var Authentication: any;
 declare var Utility: any;
+declare var STBAppManager:any;
+
 try {
 
     Authentication.CTCGetConfig("UserID")
@@ -19,7 +18,7 @@ try {
         }
     }
 }
-const UserID = Authentication.CTCGetConfig("UserID") || 'youtu0325'
+const UserID = Authentication.CTCGetConfig("UserID") || 'zhuoying1'
 const UserGroupID = Authentication.CTCGetConfig("UserGroupNMB") || ''
 const UserToken = Authentication.CTCGetConfig("UserToken") || ''
 const EpgGroupID = Authentication.CTCGetConfig("AreaNode") || ''
@@ -45,8 +44,9 @@ if (!Utility) {
 const Util = {
     /**
      * 安徽
+     * 0 成功 -1 失败
      */
-    setValueByName: function () {
+    setValueByName: function ():number {
         return Utility.setValueByName("exitIptvApp")
     },
     /**
@@ -54,7 +54,14 @@ const Util = {
      */
     getDomainUrl: function () {
         return Authentication.CTCGetConfig("EPGDomain");
-    }
+    },
+    /**
+     *
+     * test
+     */
+    // getEvent:function () {
+    //     return Utility.getEvent()
+    // }
 };
 
 /**

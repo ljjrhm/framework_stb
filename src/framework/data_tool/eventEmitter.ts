@@ -1,7 +1,5 @@
 /**
- * 创建：2017年9月5日14:58:58
- * 描述：同一事件支持多地方订阅，执行顺序取决于订阅顺序
- *      未订阅事件则不会触发，也不会执行触发操作
+ * @name 事件队列
  */
 import { AppEvent } from "./appEvent";
 import { Queue, Dictionary } from './collection';

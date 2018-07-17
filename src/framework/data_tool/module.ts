@@ -1,6 +1,6 @@
 
 /**
- * 模块分类：组件定义
+ * @name 功能模块
  */
 import { PageEvent } from "./pageEvent";
 import { Paging, PagingHelper } from "./paging";
@@ -9,7 +9,6 @@ import { Focus } from "./focus";
 import { HElement } from "../ui_tool/uiTool";
 import { Key } from "./dataTool";
 import { ManagementPageDB, PageType, FocusType } from "../framework";
-import { Dictionary } from "./collection";
 
 class Module {
     protected event: PageEvent;

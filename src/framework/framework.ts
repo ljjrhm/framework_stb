@@ -5,8 +5,8 @@ import { Dictionary, DoublyLinkedNode, DoublyLinkedList, Queue, Set } from "./da
 import { EventEmitter } from "./data_tool/eventEmitter";
 import { Mediator } from "./data_tool/mediator";
 import { FormatTime, FuncLock, PageSource, ParseUrl, Key, SetInterval, SetTimeout, Extend, Random, FormatUrl, Guid, Json, ConvertKey, Cookie } from "./data_tool/dataTool";
-import { HElement, VerticalRoll, HorizontalRoll, VerticalFlowRoll, VerticalVisualRangeRoll, Position, HorizontalVisualRangeRoll } from "./ui_tool/uiTool";
-import { ManagementPageDB, ManagementBothwayDB, ManagementPageDBToNative,ManagementDynamicDB } from "./data_tool/managementPageDB";
+import { HElement, VerticalRoll, HorizontalRoll, VerticalFlowRoll, VerticalVisualRangeRoll, Position, HorizontalVisualRangeRoll, AutoFocus } from "./ui_tool/uiTool";
+import { ManagementPageDB, ManagementBothwayDB, ManagementPageDBToNative, ManagementDynamicDB } from "./data_tool/managementPageDB";
 import { PageEvent, PageType } from "./data_tool/pageEvent";
 import { Module, ModulePage } from "./data_tool/module";
 import { Paging, PagingHelper } from "./data_tool/paging";
@@ -24,5 +24,5 @@ export {
     Module, ModulePage,
     Paging, PagingHelper,
     Site, Focus, FocusType,
-    Position, Set,ManagementDynamicDB
+    Position, Set, ManagementDynamicDB, AutoFocus
 };

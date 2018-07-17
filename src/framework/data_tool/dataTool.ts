@@ -1,5 +1,5 @@
 /**
- * @name 数据算法
+ * @name 数据工具
 /*
 /**
  * 导航工具
@@ -62,12 +62,15 @@ export class Cookie {
                 value = '';
                 params.expires = -1;
             }
+            if (undefined === params.expires) {
+                params.expires = 1;
+            }
             if (params.expires) {
                 var date: Date = new Date();
-                date.setTime(date.getTime() + (params.expires * 60 * 60 * 1000));
+                date.setTime(date.getTime() + (params.expires * 24 * 60 * 60 * 1000));
                 expires = '; expires=' + date.toUTCString();
             }
-            var path = params.path ? '; path=' + params.path : '';
+            var path = params.path ? '; path=' + params.path : '; path=/';
             var domain = params.domain ? '; domain=' + params.domain : '';
             var secure = params.secure ? '; secure' : '';
             document.cookie = [key, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
@@ -383,6 +386,7 @@ export function FormatTime(seconds: number, format?: string) {
     secs = secs < 10 ? ("0" + secs) : secs;
     return format.replace('hh', hours).replace('mm', mins).replace('ss', secs);
 }
+
 export class ConvertKey {
     constructor() {
 
@@ -495,39 +499,3 @@ export const enum Key {
     // Iptv = 0x0300
     Pause = 263
 }
-// 盒子内置键码
-// export const enum Key {
-//     Backspace = 4,
-//     Enter = 23,
-
-//     PageUp = 92,
-//     PageDown = 93,
-
-//     Left = 21,
-//     Up = 19,
-//     Right = 22,
-//     Down = 20,
-
-//     Zero = 7,
-//     One = 8,
-//     Two = 9,
-//     Three = 10,
-//     Four = 11,
-//     Five = 12,
-//     Six = 13,
-//     Seven = 14,
-//     Eight = 15,
-//     Nine = 16,
-
-//     VolumePlus = 24,
-//     VolumeMinus = 25,
-//     Mute = 164,
-
-//     //菜单键的键值有多个
-//     Menu1 = 272,
-//     Menu2 = 277,
-//     Menu3 = 280,
-
-//     // 会被转义
-//     // Iptv = 0x0300
-// }

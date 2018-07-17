@@ -1,7 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 更新时间：2018年4月12日 14点50分
- * 功能分类：分页辅助类
+ * @name 页码组建
  */
 export var PagingHelper = {
     getData(sourceData: Array<object>, params: { pageSize: number, pageIndex: number }) {

@@ -1,7 +1,5 @@
 /**
- * 创建作者：张诗涛
- * 创建时间：2017年9月5日11:33:59
- * 模块分类：事件管理
+ * @name 页面事件驱动
  */
 import { Mediator } from './mediator';
 import { EventEmitter } from './eventEmitter';
@@ -24,7 +22,11 @@ var PageType = {
     /**
      * 基于PageEvent 相关异常信息
      */
-    Error: 'PageEventType.Error'
+    Error: 'PageEventType.Error',
+    Blank: "blank",
+    Previous: "previous",
+    Changed: "changed",
+    enableSite: "enablesite"
 }
 
 class PageEvent {
@@ -166,7 +168,7 @@ class PageEvent {
                             fromSystem: true
                         }
 
-                        this.trigger(this.targetName, PageType.Blur, res);
+                        this.trigger(pre, PageType.Blur, res);
                     }
 
                     // 获取焦点
@@ -176,9 +178,10 @@ class PageEvent {
                         data: data,
                         fromSystem: true
                     }
-                    if (null !== this.targetName) {
-                        this.previousName = this.targetName;
+                    if (null !== pre) {
+                        this.previousName = pre;
                     }
+
                     this.targetName = identCode;
                     this.trigger(identCode, PageType.Focus, res);
                 }

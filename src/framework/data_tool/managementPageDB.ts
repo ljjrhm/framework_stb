@@ -1,7 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2017年11月15日15:02:32
- * 功能分类：数据分页缓存（本地/网络）模块
+ * @name 缓存分页
  */
 import { Dictionary, DoublyLinkedList, DoublyLinkedNode } from './collection';
 import { PagingHelper } from './paging';

@@ -1,6 +1,5 @@
-
 /**
- * 模块分类：基于 HTMLElement 节点对象的封装
+ * @name UI工具
  */
 import { SetInterval, SetTimeout } from '../data_tool/dataTool';
 
@@ -322,6 +321,44 @@ export class HElement implements IHElement {
     }
     getAll(): HTMLElement[] {
         return this.eles;
+    }
+    find(keyword: string): IHElement {
+
+        let htmls: HTMLElement[] = [];
+        // 属性
+        if (keyword.substr(0, 1) === "[") {
+
+            let arr = keyword.replace("[", "").replace("]", "").split("=");
+            let attr = arr[0], val = arr[1];
+
+            let eles = this.eles;
+
+            let findAttr = function (ele: HTMLElement) {
+                let chils = ele.children, len = chils ? chils.length : 0;
+
+                for (let i = 0; i < len; i++) {
+
+                    if (chils && chils.length && chils.item) {
+                        let item = chils.item(i);
+
+                        if (item.getAttribute(attr) && val === item.getAttribute(attr)) {
+
+                            htmls.push(<any>item);
+                        }
+                        // has children node
+                        if (item.children.length) {
+                            findAttr(<any>item);
+                        }
+                    }
+                }
+            }
+            this.eles.forEach((v) => {
+                findAttr(v);
+            });
+
+        }
+
+        return new HElement(htmls);
     }
 }
 /**
@@ -671,4 +708,97 @@ export function Position(el: HTMLElement) {
         bottom: box.bottom + y,
         left: box.left + x
     };
+}
+declare let Velocity: any;
+export class AutoFocus {
+    private eleImg: HTMLImageElement;
+    private offsetX = 0;
+    private offsetY = 0;
+    private readonly timer: SetTimeout;
+
+    constructor(params: { url: string, offsetX?: number, offsetY?: number, delay?: number }) {
+        let img = new Image();
+        img.style.position = "absolute";
+        img.style.left = 0 + 'px';
+        img.style.top = 0 + 'px';
+
+        img.style.display = "none";
+
+        img.onload = () => {
+            document.body.appendChild(img);
+        }
+        img.src = params.url;
+
+        this.eleImg = img;
+
+        if (params.offsetX) {
+            this.offsetX = params.offsetX;
+        }
+        if (params.offsetY) {
+            this.offsetY = params.offsetY;
+        }
+        if (params.delay) {
+            this.timer = new SetTimeout(params.delay);
+        }
+    }
+    show() {
+        this.eleImg.style.display = "block";
+    }
+    hide() {
+        this.eleImg.style.display = "none";
+    }
+    toAnimation(target: IHElement, params?: { url?: string, offsetX?: number, offsetY?: number }) {
+        if ('block' !== this.eleImg.style.display) this.eleImg.style.display = "block";
+
+        let position = Position(target.get(0)),
+            offsetX = this.offsetX,
+            offsetY = this.offsetY;
+
+        if (params) {
+            if (typeof params.offsetX === 'number') {
+                offsetX = params.offsetX
+            }
+            if (typeof params.offsetY === 'number') {
+                offsetY = params.offsetY
+            }
+        }
+        let width = this.eleImg.width;
+        let height = this.eleImg.height;
+
+        // replace
+        if (params && params.url) {
+            this.eleImg["src"] = params.url;
+        }
+
+        if (this.timer) {
+            this.timer.enable(() => {
+                Velocity(this.eleImg, "stop");
+                Velocity(this.eleImg, {
+                    left: `${(position.left + offsetX)}px`,
+                    top: `${(position.top + offsetY)}px`,
+                }, {
+                        duration: 300
+                    });
+            })
+        } else {
+            Velocity(this.eleImg, "stop");
+            Velocity(this.eleImg, {
+                left: `${(position.left + offsetX)}px`,
+                top: `${(position.top + offsetY)}px`
+            }, {
+                    duration: 500
+                });
+        }
+
+    }
+    toMove(target: IHElement) {
+
+        let position = Position(target.get(0));
+
+        this.eleImg.style.left = `${(position.left + this.offsetX)}px`;
+        this.eleImg.style.top = `${(position.top + this.offsetY)}px`;
+
+        if ('block' !== this.eleImg.style.display) this.eleImg.style.display = "block";
+
+    }
 }

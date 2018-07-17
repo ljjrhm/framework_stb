@@ -1,10 +1,5 @@
 /**
- * 编辑作者：张诗涛
- * 创建时间：2017年11月22日14:53:57
- * 功能分类：数据结构
- * 更新日志：（DoublyLinkedList）
- *          时间：2017年11月22日14:54:49
- *          内容：DoublyLinkedList 完善支持强类型
+ * @name 数据结构
  */
 export class Dictionary<T=any> {
     private items: any = {};
