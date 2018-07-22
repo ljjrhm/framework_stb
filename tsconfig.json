@@ -3,17 +3,19 @@
         "./src/**/*.ts"
     ],
     "exclude": [
+        "node_modules",
         "./src/template/**/*",
         "./src/package/**/*"
     ],
     "compilerOptions": {
         "outDir": "./dist/js",
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "sourceMap": true,
         "module": "amd",
         "target": "es5",
         "allowJs": true,
         "downlevelIteration": true,
+        "jsx": "preserve",
         "lib": [
             "es2015.promise",
             "dom",

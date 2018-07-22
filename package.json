@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp watch",
-    "minify": "gulp minify",
-    "server": "http-server dist -c-0 -o -p 9876 -s",
-    "doc": "gulp typedoc"
+    "doc": "gulp typedoc",
+    "start": "yarn gulp init-file && yarn webpack --mode=development",
+    "start:pro": "yarn gulp init-file && yarn webpack --mode=production",
+    "start:dev": "yarn gulp init-file && yarn webpack-dev-server --mode=development --inline --devtool source-map --content-base dist --open",
+    "watch:file": "yarn gulp watch-file"
   },
   "repository": {
     "type": "git",
@@ -21,19 +22,22 @@
   },
   "homepage": "https://github.com/ruanyf/webpack-demos#readme",
   "devDependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.1.0",
-    "gulp-htmlmin": "^4.0.0",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-less": "^3.3.2",
-    "gulp-minify-css": "^1.2.4",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.6.1",
-    "gulp-typedoc": "^2.2.0",
-    "gulp-typescript": "^3.2.3",
-    "gulp-uglify": "^3.0.0",
+    "gulp-rename": "^1.3.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-watch": "^5.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "style-loader": "^0.21.0",
+    "ts-loader": "^4.4.2",
     "typedoc": "^0.11.1",
-    "typescript": "^2.5.3"
+    "typescript": "^2.9.2",
+    "webpack": "^4.15.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {}
 }
