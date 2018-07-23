@@ -1,11 +1,4 @@
-import "./index.less";
-import { PageEvent } from "../../framework/script/component/pageEvent";
-import { CommonLogic } from "../../logics/commonLogic";
-
-let event = new PageEvent("index", null);
-
-
-let lgc = new CommonLogic();
+import * as React from "react"
 
 function component() {
     return (
