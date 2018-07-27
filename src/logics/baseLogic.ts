@@ -1,4 +1,5 @@
-import { Ajax } from "../framework/script/basic/ajax";
+import { Ajax } from "../framework/basic/ajax";
+
 
 /**
  * @name 数据逻辑

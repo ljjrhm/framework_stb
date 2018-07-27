@@ -51,7 +51,7 @@ module.exports = {
           test: /[\\/]framework|logics|models[\\/]/,
           name: 'commons',
           chunks: 'initial',
-          minChunks: 1
+          minChunks: 2
         }
       }
     },
@@ -64,10 +64,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/pages/index/index.html',
-      chunks: ['index']
+      chunks: ['index','runtime','commons','vendors']
     })
   ],
   resolve: {
-    extensions: ['.ts', 'tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json']
   }
 }

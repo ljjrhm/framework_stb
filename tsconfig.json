@@ -1,6 +1,6 @@
 {
     "include": [
-        "./src/**/*.ts"
+        "./src/**/*"
     ],
     "exclude": [
         "node_modules",
@@ -11,7 +11,7 @@
         "outDir": "./dist/js",
         "noImplicitAny": false,
         "sourceMap": true,
-        "module": "amd",
+        "module": "commonjs",
         "target": "es5",
         "allowJs": true,
         "downlevelIteration": true,
