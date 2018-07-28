@@ -18,6 +18,7 @@ function _render(vnode, container) {
         component._container = container;   // 保存父容器信息，用于更新
 
         vnode = component.render();
+
     }
 
     if (typeof vnode === 'string' || typeof vnode === 'number') {
@@ -54,7 +55,7 @@ function _render(vnode, container) {
 
     let out = container.appendChild(dom);
 
-    component.componentDidMount();
+    // component.componentDidMount();
 
     return out;
 }
