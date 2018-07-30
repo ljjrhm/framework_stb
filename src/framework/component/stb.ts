@@ -362,7 +362,7 @@ function Page<IRqeuest={ return: string }, P={}, M={}>(pageName: string, handler
 /**
  * 查找区域
  */
-function area(ele: IHElement, index: number, keyCode: Key.Up | Key.Down | Key.Right | Key.Left): Site {
+export function area(ele: IHElement, index: number, keyCode: Key.Up | Key.Down | Key.Right | Key.Left): Site {
 
     let eles: HTMLElement[] = ele.getAll(), list: { index: number, element: HElement }[] = [];
 

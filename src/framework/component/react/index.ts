@@ -1,9 +1,11 @@
-import Component from "./component"
+import {Component} from "./component"
 import createElement from "./create-element";
+import { Json } from "../../basic/json";
 
-var React={
+export var React={
     Component:Component,
-    createElement:createElement
+    createElement:createElement,
+    props: function (params: { [key: string]: string | number | boolean }): string {
+        return Json.serializ(params);
+    }
 }
-
-export default React;

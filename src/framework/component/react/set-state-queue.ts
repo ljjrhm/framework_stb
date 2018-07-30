@@ -1,6 +1,5 @@
 import { renderComponent } from "../react-dom/diff";
 import { Extend } from "../../basic/extend";
-import { HElement } from "../../basic/helement";
 
 const setStateQueue = [];
 const renderQueue = [];
@@ -57,36 +56,6 @@ function flush() {
     while (component = renderQueue.shift()) {
 
         renderComponent(component);
-
-        console.log('更新完毕');
-        // // 处理焦点
-        // // 获取当前焦点节点
-        let eles = new HElement(component.base).find('[tag=focus]');
-        console.log(eles);
-
-        // 当前焦点元素是否存在
-        if (eles && eles.length) {
-
-            component.tags = eles;
-
-            // 不存在则重置
-            if (component.index < eles.length) {
-
-                // 如果存在，判断当前是否有效，无效设置第一个
-
-
-
-            } else {
-                component.index = 0;
-            }
-
-
-        } else {
-            component.index = undefined;
-        }
-
-        // // 更新到当前节点
-        component.componentDidUpdate(component.prevState, component.props);
 
     }
 }

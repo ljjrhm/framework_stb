@@ -1,5 +1,7 @@
 import { setAttribute } from "./dom";
-import Component from "../react/component";
+
+import { HElement } from "../../basic/helement";
+import { Component } from "../react/component";
 
 
 /**
@@ -226,6 +228,7 @@ export function renderComponent(component) {
     component.base = base;
     base._component = component;
 
+    loadFocus(component);
 }
 
 function createComponent(component, props) {
@@ -236,7 +239,7 @@ function createComponent(component, props) {
         inst = new component(props);
     } else {
         // 静态组件无需指定模块以及事件代理
-        inst = new Component(props,undefined,undefined);
+        inst = new Component(props, undefined, undefined);
         inst.constructor = component;
         inst.render = function () {
             return this.constructor(props);
@@ -328,5 +331,22 @@ function bindFocusNode(out, vnode) {
     //         console.log('onclick')
     //     }
     // }
-    
+
+}
+
+function loadFocus(component) {
+    // // 处理焦点
+    // // 获取当前焦点节点
+    let eles = new HElement(component.base).find('[tag=focus]');
+
+    // 当前焦点元素是否存在
+    if (eles && eles.length) {
+
+        component.tags = eles;
+
+    }
+
+    // 更新到当前节点 TODO
+    // component.componentDidUpdate(component.prevState, component.props);
+    component.componentFocusUpdate();
 }

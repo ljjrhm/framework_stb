@@ -55,7 +55,7 @@ function _render(vnode, container) {
 
     let out = container.appendChild(dom);
 
-    // component.componentDidMount();
+    component.componentDidMount();
 
     return out;
 }
