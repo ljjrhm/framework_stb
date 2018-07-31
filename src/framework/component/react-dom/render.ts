@@ -60,8 +60,6 @@ function _render(vnode, container) {
     return out;
 }
 
-function render(vnode, container, dom?) {
+export function render(vnode, container, dom?) {
     return diff(dom, vnode, container);
 }
-
-export default render;

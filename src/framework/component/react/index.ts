@@ -1,5 +1,5 @@
 import {Component} from "./component"
-import createElement from "./create-element";
+import {createElement} from "./create-element";
 import { Json } from "../../basic/json";
 
 export var React={

@@ -2,6 +2,7 @@ import { setAttribute } from "./dom";
 
 import { HElement } from "../../basic/helement";
 import { Component } from "../react/component";
+import { PageType } from "../pageEvent";
 
 
 /**
@@ -69,10 +70,7 @@ function diffNode(dom, vnode) {
     if (vnode.children && vnode.children.length > 0 || (out.childNodes && out.childNodes.length > 0)) {
         diffChildren(out, vnode.children);
     }
-
-    if (vnode.attrs && vnode.attrs.tag && 'focus' === vnode.attrs.tag) {
-        bindFocusNode(out, vnode);
-    }
+    
     diffAttributes(out, vnode);
 
     return out;
@@ -247,8 +245,9 @@ function createComponent(component, props) {
     }
 
     // 初始化组件配置
-    // TODO 仅首次初始化配置文件
-    inst.subscribeToEvents();
+    if(inst.subscribeToEvents){    
+        inst.subscribeToEvents();
+    }
 
     return inst;
 
@@ -309,31 +308,6 @@ function removeNode(dom) {
 
 }
 
-
-function bindFocusNode(out, vnode) {
-    // 绑定节点默认属性
-    // 该节点为焦点节点，则初始化 tagfocus 和 tagblur 事件，事件初始化当前 key 值，和当前节点，当前配置参数
-
-    // console.log(out, vnode);
-
-    if (!vnode.attrs.tagfocus) {
-        vnode.attrs.ontagfocus = function () {
-            console.log('tagfocus')
-        }
-    }
-    if (!vnode.attrs.tagblur) {
-        vnode.attrs.ontagfocus = function () {
-            console.log('tagblur')
-        }
-    }
-    // if (!vnode.attrs.onclick) {
-    //     vnode.attrs.onclick = function () {
-    //         console.log('onclick')
-    //     }
-    // }
-
-}
-
 function loadFocus(component) {
     // // 处理焦点
     // // 获取当前焦点节点
@@ -348,5 +322,5 @@ function loadFocus(component) {
 
     // 更新到当前节点 TODO
     // component.componentDidUpdate(component.prevState, component.props);
-    component.componentFocusUpdate();
+    component.componentFocusUpdate({from:PageType.Changed});
 }

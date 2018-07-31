@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ['awesome-typescript-loader']
+        use: ['es3ify-loader','awesome-typescript-loader']
       }
     ]
   },

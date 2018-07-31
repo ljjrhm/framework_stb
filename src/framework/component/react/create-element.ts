@@ -1,4 +1,4 @@
-function createElement( tag, attrs, ...children ) {
+export function createElement( tag, attrs, ...children ) {
 
     attrs = attrs || {};
 
@@ -9,5 +9,3 @@ function createElement( tag, attrs, ...children ) {
         key: attrs.key || null
     }
 }
-
-export default createElement;

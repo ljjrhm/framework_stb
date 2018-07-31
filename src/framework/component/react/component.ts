@@ -7,10 +7,10 @@ export class Component {
     private isReactComponent: boolean;
     protected state: any;
     protected readonly props: any;
-    private readonly identCode;
+    protected readonly identCode;
     protected readonly tags: HElement;
-    protected index = 0;
-    protected event: PageEvent;
+    protected readonly index = 0;
+    protected readonly event: PageEvent;
 
     constructor(props = {}, identCode?, event?: PageEvent) {
 
@@ -22,13 +22,23 @@ export class Component {
         this.event = event;
 
         // 无状态组建不处理
+        if(undefined === identCode){
+            this.subscribeToEvents = null;
+        }
         if (event) {
-            event.on(identCode, PageType.Focus, (e: FocusEvent) => {
-                this.componentFocusUpdate();
-            })
-            event.on(identCode, PageType.Blur, (e: FocusEvent) => {
-                this.componentFocusUpdate();
-            });
+            // 确保模块事件不会重复订阅
+            if (this.event.hasSubscribe(this.identCode, PageType.Focus)) {
+                this.subscribeToEvents = null;
+            } else {
+                event.on(identCode, PageType.Focus, (e: FocusEvent) => {
+                    this.componentFocusUpdate({from:PageType.Focus});
+                });
+                event.on(identCode, PageType.Blur, (e: FocusEvent) => {
+                    this.componentFocusUpdate({from:PageType.Blur});
+                });
+            }
+        } else {
+            this.subscribeToEvents = null;
         }
     }
 
@@ -36,15 +46,15 @@ export class Component {
         enqueueSetState(stateChange, this);
     }
     setFocus(index) {
-        this.index = index;
-        this.componentFocusUpdate();
+        (<any>this).index = index;
+        this.componentFocusUpdate({from:PageType.Changed});
     }
 
     componentWillUpdate() { };
     componentDidUpdate(prevProps, prevState) { };
     componentWillMount() { };
     componentDidMount() { };
-    componentFocusUpdate() { };
+    componentFocusUpdate(from) { };
     render() { };
     subscribeToEvents() { };
 

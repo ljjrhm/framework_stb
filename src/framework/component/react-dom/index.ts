@@ -1,8 +1,6 @@
-import render from "./render"
+import {render} from "./render"
 
 
-var ReactDOM={
+export var ReactDOM={
     render:render
 }
-
-export default ReactDOM;
