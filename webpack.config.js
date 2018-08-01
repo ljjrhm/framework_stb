@@ -36,7 +36,7 @@ module.exports = {
       chunks: 'all',
       minSize: 0,
       maxSize: 0,
-      minChunks: 1,
+      minChunks: 2,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
       automaticNameDelimiter: '_',

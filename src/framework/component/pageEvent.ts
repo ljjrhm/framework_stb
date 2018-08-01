@@ -25,8 +25,7 @@ var PageType = {
     Error: 'PageEventType.Error',
     Blank: "blank",
     Previous: "previous",
-    Changed: "changed",
-    enableSite: "enablesite"
+    Changed: "changed"
 }
 
 class PageEvent {
@@ -93,9 +92,10 @@ class PageEvent {
                         }
                         if (trigger) {
                             // 发布当前触发事件简码事件
-                            if (res && res.keyCode) {
-                                this.trigger(targetName, res.keyCode, res);
-                            }
+                            // 取消 2018年08月01日13:00:00
+                            // if (res && res.keyCode) {
+                            //     this.trigger(targetName, res.keyCode, res);
+                            // }
                             // topic 为 number 类型默认当中 keyCode 处理
                             this.trigger(targetName, ele.topic, res);
                             // 所有模块的事件

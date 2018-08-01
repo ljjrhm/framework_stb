@@ -3,6 +3,9 @@ import { PageEvent, PageType } from '../pageEvent';
 import { HElement } from '../../basic/helement';
 import { Json } from '../../basic/json';
 
+/**
+ * @description event 定义父组件尽可能不操作 event 对象
+ */
 export class Component {
     private isReactComponent: boolean;
     protected state: any;
@@ -21,24 +24,30 @@ export class Component {
         this.identCode = identCode;
         this.event = event;
 
-        // 无状态组建不处理
-        if(undefined === identCode){
-            this.subscribeToEvents = null;
-        }
-        if (event) {
+        let hasSub = false, hasOff = false;
+
+        // identCode event 检测
+        if (undefined !== identCode && undefined !== event && event) {
+
             // 确保模块事件不会重复订阅
             if (this.event.hasSubscribe(this.identCode, PageType.Focus)) {
-                this.subscribeToEvents = null;
-            } else {
-                event.on(identCode, PageType.Focus, (e: FocusEvent) => {
-                    this.componentFocusUpdate({from:PageType.Focus});
-                });
-                event.on(identCode, PageType.Blur, (e: FocusEvent) => {
-                    this.componentFocusUpdate({from:PageType.Blur});
-                });
+                // 更新订阅
+                hasOff = true;
             }
-        } else {
-            this.subscribeToEvents = null;
+            hasSub = true;
+
+        }
+
+        if (hasOff) {
+            offAll(this.event, this.identCode);
+        }
+        if (hasSub) {
+            event.on(identCode, PageType.Focus, (e: FocusEvent) => {
+                this.componentFocusUpdate({ from: PageType.Focus });
+            });
+            event.on(identCode, PageType.Blur, (e: FocusEvent) => {
+                this.componentFocusUpdate({ from: PageType.Blur });
+            });
         }
     }
 
@@ -47,7 +56,7 @@ export class Component {
     }
     setFocus(index) {
         (<any>this).index = index;
-        this.componentFocusUpdate({from:PageType.Changed});
+        this.componentFocusUpdate({ from: PageType.Changed });
     }
 
     componentWillUpdate() { };
@@ -59,9 +68,6 @@ export class Component {
     subscribeToEvents() { };
 
     // 自定义事件
-    on(topic: string | number, callback: any) {
-        this.event.on(this.identCode, topic, callback);
-    }
     onfocus(callback: (e: IFocus) => void) {
         this.event.on(this.identCode, PageType.Focus, callback);
     }
@@ -81,7 +87,12 @@ export class Component {
             callback(e);
         });
     }
-    trigger(topic: string | number, data: any = null) {
-        this.event.trigger(this.identCode, topic, data);
+    target(identCode: string | number, data?: any) {
+        this.event.target(identCode, data);
     }
+}
+function offAll(event: PageEvent, identCode) {
+    event.off(identCode, PageType.Focus);
+    event.off(identCode, PageType.Blur);
+    event.off(identCode, PageType.Keydown);
 }

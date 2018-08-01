@@ -1,174 +1,255 @@
-import { HElement } from "../basic/helement";
 import { Key } from "../basic/key";
-import { Position } from "../basic/position";
+import { HElement } from "../basic/helement";
+import {Position} from "../basic/position";
 
-/**
- * @name 焦点引擎
- */
-
-class Site {
-    public index: number = null;
-    public element: IHElement = null;
+class Site{
+    index:number;
+    element:IHElement;
 }
 
-class Focus {
-    private eles: IHElement;
-    private site: Site = null;
-    private list: Array<Site> = [];
+/**
+ * 临界线以外查找区域
+ */
+function area(ele: IHElement, index: number, keyCode: Key.Up | Key.Down | Key.Right | Key.Left): Site {
 
-    constructor() {
+    let eles: HTMLElement[] = ele.getAll(), list: { index: number, element: HElement }[] = [];
+
+    eles.forEach((v, i) => {
+        list.push({
+            index: i,
+            element: new HElement(v)
+        });
+    });
+
+    let posis: { num: number, left: number, top: number, right: number, bottom: number, site: Site }[] = [], curPos = Position(ele.eq(index).get(0));
+
+    // 确定方向
+    if (Key.Up === keyCode) {
+
+        // 找到范围有效
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效顶部
+            if (item.bottom <= curPos.top) {
+                // 阴影检测
+                if (shadown(curPos, item, Key.Up)) {
+                    let x1 = curPos.left;
+                    let x2 = item.left;
+                    let y1 = curPos.top;
+                    let y2 = item.bottom;
+
+                    let num = distance(x1, x2, y1, y2);
+
+                    posis.push({ ...item, site: v, num: num });
+                }
+
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+
     }
-    initData(ele: IHElement) {
-        this.eles = ele;
-        this.list.length = 0;
+    else if (Key.Right === keyCode) {
 
-        let eles = this.eles.getAll();
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效右边
+            if (item.left >= curPos.right) {
+                // 阴影检测
+                if (shadown(curPos, item, Key.Right)) {
+                    let x1 = curPos.left;
+                    let x2 = item.left;
+                    let y1 = curPos.top;
+                    let y2 = item.bottom;
 
-        eles.forEach((v, i) => {
-            this.list.push({
-                index: i,
-                element: new HElement(v)
-            });
+                    let num = distance(x1, x2, y1, y2);
+
+                    posis.push({ ...item, site: v, num: num });
+                }
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+
+    }
+    else if (Key.Down === keyCode) {
+        // 找到范围有效
+        list.forEach((v, i) => {
+
+            let item = Position(v.element.get(0));
+            // 有效底部
+            if (item.top >= curPos.bottom) {
+                // 阴影检测
+                if (shadown(curPos, item, Key.Down)) {
+                    let x1 = curPos.left;
+                    let x2 = item.left;
+                    let y1 = curPos.top;
+                    let y2 = item.top;
+
+                    let num = distance(x1, x2, y1, y2);
+
+                    posis.push({ ...item, site: v, num: num });
+                }
+
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
         });
     }
-    setSite(index: number): void {
-        if (this.list.length > index) {
-            this.site = this.list[index];
-        }
-    }
-    getSite(index?: number): Site {
-        if (undefined === index) {
-            return this.site;
-        }
-        else {
-            return this.list[index];
-        }
-    }
-    getNear(keyCode: Key.Up | Key.Down | Key.Right | Key.Left): Site {
-        if (!this.site) {
-            return;
-        }
+    else if (Key.Left === keyCode) {
+        // 找到范围有效
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效左边
+            if (item.right <= curPos.left) {
 
-        let eles = this.list, posis: { num: number, left: number, top: number, right: number, bottom: number, site: Site }[] = [], curPos = Position(this.site.element.get(0));
+                // 阴影检测
+                if (shadown(curPos, item, Key.Left)) {
 
-        // 确定方向
-        if (Key.Up === keyCode) {
+                    let x1 = curPos.left;
+                    let x2 = item.left;
+                    let y1 = curPos.top;
+                    let y2 = item.bottom;
 
-            // 找到范围有效
-            eles.forEach((v, i) => {
-                let item = Position(v.element.get(0));
-                // 有效顶部
-                if (item.bottom <= curPos.top) {
-                    // 阴影检测
-                    if (shadown(curPos, item, Key.Up)) {
-                        let x1 = curPos.left;
-                        let x2 = item.left;
-                        let y1 = curPos.top;
-                        let y2 = item.bottom;
+                    let num = distance(x1, x2, y1, y2);
 
-                        let num = distance(x1, x2, y1, y2);
-
-                        posis.push({ ...item, site: v, num: num });
-                    }
-
+                    posis.push({ ...item, site: v, num: num });
                 }
-            });
 
-            // 找到需要的节点
-            posis.sort((v, z) => {
-                return v.num - z.num;
-            });
+            }
+        });
 
-        }
-        else if (Key.Right === keyCode) {
-
-            eles.forEach((v, i) => {
-                let item = Position(v.element.get(0));
-                // 有效右边
-                if (item.left >= curPos.right) {
-                    // 阴影检测
-                    if (shadown(curPos, item, Key.Right)) {
-                        let x1 = curPos.left;
-                        let x2 = item.left;
-                        let y1 = curPos.top;
-                        let y2 = item.bottom;
-
-                        let num = distance(x1, x2, y1, y2);
-
-                        posis.push({ ...item, site: v, num: num });
-                    }
-                }
-            });
-
-            // 找到需要的节点
-            posis.sort((v, z) => {
-                return v.num - z.num;
-            });
-
-        }
-        else if (Key.Down === keyCode) {
-            // 找到范围有效
-            eles.forEach((v, i) => {
-
-                let item = Position(v.element.get(0));
-                // 有效底部
-                if (item.top >= curPos.bottom) {
-                    // 阴影检测
-                    if (shadown(curPos, item, Key.Down)) {
-                        let x1 = curPos.left;
-                        let x2 = item.left;
-                        let y1 = curPos.top;
-                        let y2 = item.top;
-
-                        let num = distance(x1, x2, y1, y2);
-
-                        posis.push({ ...item, site: v, num: num });
-                    }
-
-                }
-            });
-
-            // 找到需要的节点
-            posis.sort((v, z) => {
-                return v.num - z.num;
-            });
-        }
-        else if (Key.Left === keyCode) {
-            // 找到范围有效
-            eles.forEach((v, i) => {
-                let item = Position(v.element.get(0));
-                // 有效左边
-                if (item.right <= curPos.left) {
-
-                    // 阴影检测
-                    if (shadown(curPos, item, Key.Left)) {
-
-                        let x1 = curPos.left;
-                        let x2 = item.left;
-                        let y1 = curPos.top;
-                        let y2 = item.bottom;
-
-                        let num = distance(x1, x2, y1, y2);
-
-                        posis.push({ ...item, site: v, num: num });
-                    }
-
-                }
-            });
-
-            // 找到需要的节点
-            posis.sort((v, z) => {
-                return v.num - z.num;
-            });
-        }
-        return posis.length ? posis[0].site : null;
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
     }
-    getSites(): Array<Site> {
-        return this.list;
+    return posis.length ? posis[0].site : null;
+}
+/**
+ * 阴影内查找范围
+ */
+function scope(ele: IHElement, index: number, keyCode: Key.Up | Key.Down | Key.Right | Key.Left): Site {
+
+    let eles: HTMLElement[] = ele.getAll(), list: { index: number, element: HElement }[] = [];
+
+    eles.forEach((v, i) => {
+        list.push({
+            index: i,
+            element: new HElement(v)
+        });
+    });
+
+    let posis: { num: number, left: number, top: number, right: number, bottom: number, site: Site }[] = [], curPos = Position(ele.eq(index).get(0));
+
+    // 确定方向
+    if (Key.Up === keyCode) {
+
+        // 找到范围有效
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效顶部
+            if (item.bottom <= curPos.top) {
+
+                let x1 = curPos.left;
+                let x2 = item.left;
+                let y1 = curPos.top;
+                let y2 = item.bottom;
+
+                let num = distance(x1, x2, y1, y2);
+
+                posis.push({ ...item, site: v, num: num });
+
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+
     }
-    getHelement(): IHElement {
-        return this.eles;
+    else if (Key.Right === keyCode) {
+
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效右边
+            if (item.left >= curPos.right) {
+                let x1 = curPos.left;
+                let x2 = item.left;
+                let y1 = curPos.top;
+                let y2 = item.bottom;
+
+                let num = distance(x1, x2, y1, y2);
+
+                posis.push({ ...item, site: v, num: num });
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+
     }
+    else if (Key.Down === keyCode) {
+        // 找到范围有效
+        list.forEach((v, i) => {
+
+            let item = Position(v.element.get(0));
+            // 有效底部
+            if (item.top >= curPos.bottom) {
+                let x1 = curPos.left;
+                let x2 = item.left;
+                let y1 = curPos.top;
+                let y2 = item.top;
+
+                let num = distance(x1, x2, y1, y2);
+
+                posis.push({ ...item, site: v, num: num });
+
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+    }
+    else if (Key.Left === keyCode) {
+        // 找到范围有效
+        list.forEach((v, i) => {
+            let item = Position(v.element.get(0));
+            // 有效左边
+            if (item.right <= curPos.left) {
+
+                let x1 = curPos.left;
+                let x2 = item.left;
+                let y1 = curPos.top;
+                let y2 = item.bottom;
+
+                let num = distance(x1, x2, y1, y2);
+
+                posis.push({ ...item, site: v, num: num });
+
+            }
+        });
+
+        // 找到需要的节点
+        posis.sort((v, z) => {
+            return v.num - z.num;
+        });
+    }
+    return posis.length ? posis[0].site : null;
 }
 function distance(x1: number, x2: number, y1: number, y2: number) {
     let c = (Math.abs((x1 - x2)) * Math.abs((x1 - x2))) + (Math.abs((y1 - y2)) * Math.abs((y1 - y2)));
@@ -206,4 +287,9 @@ function shadown(p1: { top: number, left: number, right: number, bottom: number 
     }
     return false;
 }
-export { Site, Focus }
+
+var Focus = {
+    area:area,
+    scope:scope
+}
+export {Focus};

@@ -99,6 +99,11 @@ export class HElement implements IHElement {
                         if (item == clasName) {
                             delete arr[i];
                             v.className = arr.join(" ").trim();
+
+                            // 取值为空删除节点属性
+                            if ("" === v.className.trim() && v.hasAttribute("class") && v.removeAttributeNode) {
+                                v.removeAttributeNode(v.getAttributeNode("class"));
+                            }
                             break;
                         }
                     }
