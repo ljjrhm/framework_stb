@@ -15,7 +15,12 @@ export class Component {
     protected readonly index = 0;
     protected readonly event: PageEvent;
 
-    constructor(props = {}, identCode?, event?: PageEvent) {
+    constructor(props = <any>{}) {
+        
+        // 配置预定义对象
+        const {identCode,event} = props;
+        delete props.identCode;
+        delete props.event;
 
         this.isReactComponent = true;
 
@@ -64,6 +69,7 @@ export class Component {
     componentWillMount() { };
     componentDidMount() { };
     componentFocusUpdate(from) { };
+    componentWillReceiveProps(){};
     render() { };
     subscribeToEvents() { };
 

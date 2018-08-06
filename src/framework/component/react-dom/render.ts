@@ -50,7 +50,6 @@ function _render(vnode, container) {
         vnode.children.forEach(child => _render(child, dom));
     }
 
-
     const component = vnode.component;
 
     let out = container.appendChild(dom);

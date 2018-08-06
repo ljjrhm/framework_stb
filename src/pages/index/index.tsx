@@ -15,135 +15,97 @@ interface IParams {
 interface IMemo {
 }
 enum MType {
-    Nav,
-    Content
+    Component
 }
 
 function FocusItem(data) {
     return (
-        <div data-keydown={React.props(data)} tag="focus">
-        <div>
-            <h1>{data.index}</h1>
-        </div>
-        </div>
+        <div tag="focus"></div>
     );
 }
 
-class NavModule extends React.Component {
+class Container extends React.Component {
     constructor(props) {
-        super(props, props.identCode, props.event);
+        super(props);
         this.state = {
-            num: 0
+            msg:"1.初始化信息;",
+            num:0
         }
     }
     componentWillMount() {
-        console.log("组件挂载之前")
+        this.state.msg += '2.程序挂载之前;'
     }
-    componentWillUpdate() {
-        console.log("组件更新之前")
-    }
-    componentDidUpdate() {
-        console.log("组件更新之后")
-    }
-    componentDidMount() {
-        console.log("组件挂载完毕");
-    }
-    render() {
-        return (
-            <div class="container">
-                <FocusItem index="新页面" />
-                <FocusItem index="上一个页面" />
-                <FocusItem index="2" />
-                <FocusItem index="3" />
-                <FocusItem index="4" />
-
-                <ContentModule identCode={MType.Content} event={this.event} />
-
-                <div>
-                    <h1>
-                        {this.state.num}
-                    </h1>
-                    <button onclick={() => this.onClick()}>点击</button>
-                </div>
-            </div>
-        );
-    }
-    onClick() {
-        this.setState({
-            num: this.state.num + 1
-        })
-    }
-    subscribeToEvents() {
-        this.onkeydown((e) => {
-if(Key.Enter === e.keyCode){
-    this.onClick();
-}
-            // 是否有效
-            let site = Focus.area(this.tags, this.index, e.keyCode), success = true;
-
-            if (site) {
-                this.setFocus(site.index);
-            } else {
-                success = false;
-            }
-
-            if (!success) {
-                if (Key.Up === e.keyCode) {
-                    this.event.target(MType.Nav);
-                }
-            }
-
-        });
-    }
-
-    componentFocusUpdate({ from }) {
-        if (!this.tags || 0 >= this.tags.length) {
-            return;
-        }
-
-        // 获取节点信息，配置信息
-        this.tags.removeClass("focus");
-
-        if (PageType.Changed === from || PageType.Focus === from) {
-            this.tags.eq(this.index).addClass("focus");
-        }
-    }
-}
-class ContentModule extends React.Component {
-    constructor(props) {
-        super(props, props.identCode, props.event);
-        this.state = {
-            num: 0
-        }
-    }
-
     render() {
         return (
             <div>
-                这里是内容
+                <h1>组件渲染以及焦点引擎检测</h1>
+                <div>
+                   <FocusItem />
+                   <FocusItem />
+                   <FocusItem />
+                   <FocusItem />
+                </div>
+                <p>
+                    {this.state.num}
+                    {this.state.msg}
+                </p>
             </div>
         );
+    }
+    subscribeToEvents(){
+        this.onkeydown((e)=>{
+            let s = Focus.scope(this.tags,this.index,e.keyCode);
+
+            if(s){
+                this.setFocus(s.index);
+            }
+
+            if(e.keyCode === Key.Enter){
+                this.enterPush();
+            }
+        })
+    }
+    componentDidMount() {
+
+        this.state.msg += '3.程序挂载完毕;程序生命周期检测通过';
+
+        this.setState({
+            msg:this.state.msg
+        });
+    }
+    componentFocusUpdate() {
+        this.tags.removeClass("focus");
+        this.tags.eq(this.index).addClass("focus");
+    }
+    enterPush(){
+        this.setState({
+            num:this.state.num+1
+        })
     }
 }
 
 class Page extends BasePage {
     init() {
-        console.log("init")
+        document.getElementById('page-cycle').innerHTML += '1.初始化完毕 </br>';
     }
     load() {
         ReactDOM.render(
-            <NavModule identCode={MType.Nav} event={this.event} />,
-            document.getElementById('root1')
+            <Container identCode={MType.Component} event={this.event} />,
+            document.getElementById('page')
         )
 
-        this.event.target(MType.Nav);
+        this.event.target(MType.Component);
+
+        document.getElementById('page-cycle').innerHTML += '3.加载完毕</br> 页面生命周期检测通过';
+    }
+    subscribeToEvents() {
+        document.getElementById('page-cycle').innerHTML += '2.事件加载完毕 </br>';
     }
 }
 
 PageRegister(Page, {
     handler: [
-        MType.Nav,
-        MType.Content
+        MType.Component
     ],
     request: new ParseUrl(location.search).getDecodeURIComponent(),
     cokSource: new Cookie('index_source'),

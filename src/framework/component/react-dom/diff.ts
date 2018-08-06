@@ -85,7 +85,7 @@ function diffChildren(dom, vchildren) {
     const keyed = {};
 
 
-    // TODO
+    // TODO key 有BUG 暂时不适用该属性作为 Props
     var keyedLen = 0;
 
     if (domChildren.length > 0) {
@@ -237,7 +237,7 @@ function createComponent(component, props) {
         inst = new component(props);
     } else {
         // 静态组件无需指定模块以及事件代理
-        inst = new Component(props, undefined, undefined);
+        inst = new Component(props);
         inst.constructor = component;
         inst.render = function () {
             return this.constructor(props);

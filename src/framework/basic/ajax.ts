@@ -1,5 +1,5 @@
 /**
- * @name 网络请求
+ * 最后更新时间：2018年1月2日10:14:14
  */
 class Setting {
     url: string
@@ -43,7 +43,7 @@ export class Ajax {
         xhr.open(method, url, async)
 
         if (method.toUpperCase() === "POST") {
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
+            xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8")
         }
 
         if (headers) {
@@ -57,7 +57,7 @@ export class Ajax {
         }
 
         if ("POST" == method) {
-            xhr.send(this.charFormat(data));
+            xhr.send(JSON.stringify(data));
         } else {
             xhr.send();
         }
