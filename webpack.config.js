@@ -5,7 +5,11 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    index: './src/pages/index/index.tsx'
+    index: './src/pages/index/index.tsx',
+    cycle: './src/pages/cycle/cycle.tsx',
+    html_test: './src/pages/html_test/html_test.tsx',
+    css_test: './src/pages/css_test/css_test.tsx',
+    plugin_test: './src/pages/plugin_test/plugin_test.tsx'
   },
   output: {
     filename: 'js/[name].js',
@@ -65,9 +69,31 @@ module.exports = {
       filename: 'index.html',
       template: './src/pages/index/index.html',
       chunks: ['index','runtime','commons','vendors']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'cycle.html',
+      template: './src/pages/cycle/cycle.html',
+      chunks: ['cycle','runtime','commons','vendors']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'html_test.html',
+      template: './src/pages/html_test/html_test.html',
+      chunks: ['html_test','runtime','commons','vendors']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'css_test.html',
+      template: './src/pages/css_test/css_test.html',
+      chunks: ['css_test','runtime','commons','vendors']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'plugin_test.html',
+      template: './src/pages/plugin_test/plugin_test.html',
+      chunks: ['plugin_test','runtime','commons','vendors']
     })
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
   }
 }
+
+// TODO HTML 压缩

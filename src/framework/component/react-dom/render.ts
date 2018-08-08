@@ -1,4 +1,5 @@
 import { diff } from './diff'
+import { HElement } from '../../basic/helement';
 
 function _render(vnode, container) {
 
@@ -16,6 +17,7 @@ function _render(vnode, container) {
         }
 
         component._container = container;   // 保存父容器信息，用于更新
+        component.refs = new HElement(container);
 
         vnode = component.render();
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 盒子开发时应用该设定 720P -->
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="page">
+        <div class="panel-default panel-success">
+            <div class="panel-heading">布局 CSS 样式</div>
+            <div class="panel-body">
+                <h3 style="margin-top: 0">浮动</h3>
+                <p class="small text-danger">测试项目：1.文字浮动(左、中、右)是否正常 2.元素浮动(左、中、右)是否正常</p>
+                <div style="width: auto;height: 200px;border:1px solid red;">
+                    <div style="width: auto;height: 100px;border:1px solid green;">
+                        <p style="text-align: left">文字左浮动</p>
+                        <p style="text-align: center">文字居中</p>
+                        <p style="text-align: right">文字右浮动</p>
+                    </div>
+                    <div style="width: 50px;height: 50px;border:1px solid green;float: left;">我向左浮动</div>
+                    <div style="width: 50px;height: 50px;border:1px solid green;margin: 0 auto;">我居中显示</div>
+                    <div style="width: 50px;height: 50px;border:1px solid green;float: right;">我向右浮动</div>
+                </div>
+                <h3 style="margin-top: 10pxz">定位</h3>
+                <p class="small text-danger">测试项目：1.检测页面(左上、右上、左下、右下)角是否有绝对定位元素 2.检测下面红色方框内(左上、右上、左下、右下)角是否有相对定位元素</p>
+                <div style="width: auto;height: 200px;border:1px solid red;position: relative;">
+                    <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;left: 0;top:0;color:red;">我相对定位在左上角</div>
+                    <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;right: 0;top:0;color:red;">我相对定位在右上角</div>
+                    <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;left: 0;bottom:0;color:red;">我相对定位在左下角</div>
+                    <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;right: 0;bottom:0;color:red;">我相对定位在右下角</div>
+                </div>
+                <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;left: 0;top:0;color:red;">我绝对定位在左上角</div>
+                <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;right: 0;top:0;color:red;">我绝对定位在右上角</div>
+                <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;left: 0;bottom:0;color:red;">我绝对定位在左下角</div>
+                <div style="width: 100px;height: 100px;border: 1px solid red;position: absolute;right: 0;bottom:0;color:red;">我绝对定位在右下角</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

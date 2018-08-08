@@ -24,10 +24,10 @@ export class BasePage<IRequest = any> {
     init() { };
     subscribeToEvents() { };
     load() { };
-    openBlank(){
+    openBlank(data){
         console.log("not found blank logic");
     };
-    openPrevious(){
+    openPrevious(data){
         console.log("not found previous logic");
     };
 }
@@ -35,7 +35,7 @@ export class BasePage<IRequest = any> {
 export function PageRegister(page: any,params:{
     handler:number[];
     request:object;
-    cokSource:Cookie;
+    source:PageSource;
     cokStatus:Cookie;
     debugSystem?:boolean;
     debugOther?:boolean;
@@ -48,17 +48,19 @@ export function PageRegister(page: any,params:{
     ], (params.debugOther && params.debugOther) || false, (params.debugSystem && params.debugSystem) || false);
 
     let p = new page({
-        ...params,
+        request:params.request,
+        cokStatus:params.cokStatus,
+        source:params.source,
         event:event
     });
     p.init();
     p.subscribeToEvents();
     p.load();
 
-    event.on(params.handler,PageType.Blank,()=>{
-        p.openBlank();
+    event.on(params.handler,PageType.Blank,(data)=>{
+        p.openBlank(data);
     });
-    event.on(params.handler,PageType.Previous,()=>{
-        p.openPrevious();
+    event.on(params.handler,PageType.Previous,(data)=>{
+        p.openPrevious(data);
     })
 }

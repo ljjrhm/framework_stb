@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 盒子开发时应用该设定 720P -->
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="page">
+        <div class="panel-default">
+            <div class="panel-heading">Promise 检测</div>
+            <div class="panel-body">
+                <p class="small text-danger">项目测试：1.输出消息顺序 Hello > 默认消息 > 等待了两秒 > 等待了四秒 > 检测通过</p>
+                <div id="msg" style="color: black">Hello</div>
+            </div>
+        </div>
+        <div class="panel-default">
+            <div class="panel-heading">走马灯 检测</div>
+            <div class="panel-body">
+                <p class="small text-danger">项目测试：1.文字是否在横向滚动</p>
+                <div class="horizontal">走马灯测试测试测试测试测试</div>
+            </div>
+        </div>
+        <div class="panel-default">
+            <div class="panel-heading">坐标算法 检测</div>
+            <div class="panel-body">
+                <p class="small text-danger">项目测试：1.是否输出坐标为{"top":281,"right":1264,"bottom":281,"left":16}</p>
+                <div class="vertical"></div>
+            </div>
+        </div>
+        <div class="panel-default">
+            <div class="panel-heading">Velocity 缓动函数 检测</div>
+            <div class="panel-body">
+                <p class="small text-danger">项目测试：1.元素执行动画效果从左边移动到右侧</p>
+                <div class="velocity"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/velocity.min.js"></script>
+</body>
+
+</html>

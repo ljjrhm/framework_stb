@@ -109,6 +109,10 @@ function diffChildren(dom, vchildren) {
         for (let i = 0; i < vchildren.length; i++) {
 
             const vchild = vchildren[i];
+            // TODO 无状态组件带参数异常
+            if(undefined === vchild){
+                break;
+            }
             const key = vchild.key;
             let child;
 

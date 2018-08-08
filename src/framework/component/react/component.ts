@@ -6,14 +6,15 @@ import { Json } from '../../basic/json';
 /**
  * @description event 定义父组件尽可能不操作 event 对象
  */
-export class Component {
+export class Component<P={},S={}> {
     private isReactComponent: boolean;
-    protected state: any;
-    protected readonly props: any;
+    protected state: S;
+    protected readonly props: P;
     protected readonly identCode;
     protected readonly tags: HElement;
     protected readonly index = 0;
     protected readonly event: PageEvent;
+    protected readonly refs:HElement;
 
     constructor(props = <any>{}) {
         
@@ -24,7 +25,7 @@ export class Component {
 
         this.isReactComponent = true;
 
-        this.state = {};
+        this.state = <S>{};
         this.props = props;
         this.identCode = identCode;
         this.event = event;
@@ -95,6 +96,9 @@ export class Component {
     }
     target(identCode: string | number, data?: any) {
         this.event.target(identCode, data);
+    }
+    trigger(topic: string | number, data: any = null){
+        this.event.trigger(this.identCode,topic,data);
     }
 }
 function offAll(event: PageEvent, identCode) {
